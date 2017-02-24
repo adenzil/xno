@@ -14,9 +14,25 @@ function strike(el) {
 	el.addClass(im)
 	board[el[0].id] = im;
 	state = !state;
-	checkGrid();
-	if(state)
-		computerTurn();
+	// checkGrid();
+	if(winning('x')){
+		gameOver('x');
+		return
+	}
+	else if(winning('o')){
+		gameOver('o');
+		return
+	}else{
+		var blankspace = getEmptyBlocks()
+		if(blankspace.length == 0){
+			gameOver();
+			return;
+		}else{
+			if(state)
+				computerTurn();
+		}
+	}
+
 };
 
 function getEmptyBlocks(){
@@ -29,16 +45,6 @@ function getEmptyBoard(){
 	return board.filter(function(val){
 		return !(val == 'x' || val == 'o');
 	})
-}
-
-function checkGrid(){
-	var blankspace = getEmptyBlocks()
-	if(winning('x'))
-		gameOver('x')
-	else if(winning('o'))
-		gameOver('o')
-	else if(blankspace.length == 0)
-		gameOver();
 }
 
 function gameOver(player){
