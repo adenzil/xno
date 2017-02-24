@@ -4,7 +4,8 @@
 
 	$.fn.strike = function(el) {
 	  var im = state ? 'x':'o';
-	  $(this).prepend('<img src="/images/'+im+'.png" />')
+	  $(this).prepend('<img src="../images/'+im+'.png" />');
+	  $(this).addClass(im)
 	  state = !state;
 	  return this;
 	}; 
