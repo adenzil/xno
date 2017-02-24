@@ -1,4 +1,4 @@
-var state, board;
+var state, board, level;
 
 $('.game').hide();
 
@@ -8,22 +8,23 @@ $('#newgamebut').click(function(){
 	startGame();
 })
 
+
+// User's turn
 function strike(el) {
 	var im = state ? 'o':'x';
 	el.prepend('<img src="images/'+im+'.png" />');
 	el.addClass(im)
 	board[el[0].id] = im;
 	state = !state;
-	// checkGrid();
 	if(winning('x')){
 		gameOver('x');
-		return
+		return;
 	}
 	else if(winning('o')){
 		gameOver('o');
-		return
+		return;
 	}else{
-		var blankspace = getEmptyBlocks()
+		var blankspace = getEmptyBoard()
 		if(blankspace.length == 0){
 			gameOver();
 			return;
@@ -34,12 +35,6 @@ function strike(el) {
 	}
 
 };
-
-function getEmptyBlocks(){
-	return $('.block').filter(function(){
-		return ! ($(this).hasClass('x') || $(this).hasClass('o'))
-	})
-}
 
 function getEmptyBoard(){
 	return board.filter(function(val){
@@ -69,11 +64,22 @@ function gameOver(player){
 
 function computerTurn(){
 	var options = getEmptyBoard()
-	$('#'+options[Math.floor(Math.random()*options.length)]).trigger('click');
+
+	switch(level){
+
+		case 'easy':
+					$('#'+options[Math.floor(Math.random()*options.length)]).trigger('click');
+					break;
+
+		default :
+					break;
+			
+	}
 }
 
 function startGame(){
 	state = false;
+	level = 'easy'
 	board = [0,1,2,3,4,5,6,7,8];
 	$('.game > div > div').click(function(){
 		$(this).unbind('click');
